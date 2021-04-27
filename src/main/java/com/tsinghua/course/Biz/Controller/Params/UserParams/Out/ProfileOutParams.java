@@ -5,10 +5,16 @@ import com.tsinghua.course.Biz.Controller.Params.CommonOutParams;
 
 public class ProfileOutParams extends CommonOutParams {
 
-    private String username;
+    String username;
+
+    String id;
+
+    String weixinId;
 
     public ProfileOutParams(User user){
         this.username = user.getUsername();
+        this.id = user.getId();
+        this.weixinId = user.getWeixinId();
     }
 
     public String getUsername() {
