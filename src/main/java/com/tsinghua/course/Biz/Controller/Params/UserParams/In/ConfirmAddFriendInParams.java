@@ -8,13 +8,13 @@ import com.tsinghua.course.Biz.Controller.Params.CommonInParams;
 @BizType(BizTypeEnum.USER_CONFIRM_ADD_FRIEND)
 public class ConfirmAddFriendInParams extends CommonInParams {
     @Required
-    private String weixinId;
+    private String id;
 
-    public String getWeixinId() {
-        return weixinId;
+    public String getId() {
+        return id;
     }
 
-    public void setWeixinId(String weixinId) {
-        this.weixinId = weixinId;
+    public void setId(String id) {
+        this.id = id;
     }
 }

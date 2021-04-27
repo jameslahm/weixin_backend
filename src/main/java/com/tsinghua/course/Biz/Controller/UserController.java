@@ -106,8 +106,8 @@ public class UserController {
     @NeedLogin
     @BizType(BizTypeEnum.USER_CONFIRM_ADD_FRIEND)
     public CommonOutParams userConfirmAddFriend(ConfirmAddFriendInParams inParams) throws Exception {
-        String friendId = inParams.getWeixinId();
-        User friend = userProcessor.getUserByWeixinId(friendId);
+        String friendId = inParams.getId();
+        User friend = userProcessor.getUserById(friendId);
         if(friend==null) {
             throw new CourseWarn(UserWarnEnum.NOT_FOUND);
         }
