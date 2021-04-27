@@ -11,8 +11,8 @@ echo "start kill previouse pid"
 pid=$(ps -ef | grep java | grep -v 'grep' | awk '{print $2}')
 if test -n "$pid" 
 then
-    echo "kill $(pid)"
-    kill -9 $(pid)
+    echo "kill $pid"
+    kill -9 $pid
 fi
 echo "kill previous pid down"
 echo "start new pid"
