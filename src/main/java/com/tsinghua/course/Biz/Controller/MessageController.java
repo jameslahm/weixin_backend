@@ -70,14 +70,12 @@ public class MessageController {
                 }
 
                 User user = ThreadUtil.getUser();
-                Friend friend = user.getFriends().stream().filter((friendElm)->{
-                    return friendElm.getId()==target.getId();
-                }).findFirst().orElse(null);
+                Friend friend = user.getFriends().stream().filter((friendElm)-> friendElm.getId()==target.getId()).findFirst().orElse(null);
                 if(friend==null){
                     throw new CourseWarn(UserWarnEnum.BAD_REQUEST);
                 }
 
-                timeLineSavedProcessor.addMessageInToTimeLineSaved(friend.getTimelineId(),message);
+                timeLineSavedProcessor.addMessageInToTimeLineSaved(friend.getTimeLineSavedId(),message);
                 timeLineSyncProcessor.addMessageInToTimeLineSync(target.getTimeLineSyncId(),message);
                 SocketUtil.sendMessageToUser(target.getId(),outParams);
                 break;
@@ -89,15 +87,12 @@ public class MessageController {
                     throw new CourseWarn(UserWarnEnum.BAD_REQUEST);
                 }
                 List<User> members = group.getMembers();
-                List<String> timeLineSyncIds = members.stream().map((member)->{
-                    return member.getTimeLineSyncId();
-                }).collect(Collectors.toList());
+                List<String> timeLineSyncIds = members.stream().map((member)-> member.getTimeLineSyncId()).collect(Collectors.toList());
 
+                timeLineSavedProcessor.addMessageInToTimeLineSaved(group.getTimeLineSyncId(),message);
                 timeLineSyncProcessor.addMessageInToTimeLineSyncs(timeLineSyncIds,message);
 
-                List<String> ids = members.stream().map((member)->{
-                    return member.getId();
-                }).collect(Collectors.toList());
+                List<String> ids = members.stream().map((member)-> member.getId()).collect(Collectors.toList());
                 SocketUtil.sendMessageToUsers(ids,outParams);
                 break;
             }

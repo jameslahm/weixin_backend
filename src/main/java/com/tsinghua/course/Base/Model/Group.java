@@ -4,7 +4,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Document("Group")
@@ -14,12 +13,30 @@ public class Group {
 
     String name;
 
+    String timeLineSyncId;
+
     @DBRef
     List<User> members;
 
     public Group(String name, List<User> members){
         this.name = name;
         this.members = members;
+    }
+
+    public String getTimeLineSyncId() {
+        return timeLineSyncId;
+    }
+
+    public void setTimeLineSyncId(String timeLineSyncId) {
+        this.timeLineSyncId = timeLineSyncId;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public void setName(String name) {

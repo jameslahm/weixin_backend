@@ -24,7 +24,7 @@ public class TimeLineSavedController {
     @NeedLogin
     @BizType(BizTypeEnum.TIMELINESAVED_GET)
     public CommonOutParams timeLineSavedGet(TimeLineSavedGetInParams inParams) throws Exception {
-        String timeLineId = inParams.getTimeLineId();
+        String timeLineId = inParams.getTimeLineSavedId();
         TimeLineSaved timeLineSaved = timeLineSavedProcessor.getTimeLineSavedById(timeLineId);
         if(timeLineSaved==null){
             throw new CourseWarn(UserWarnEnum.NOT_FOUND);

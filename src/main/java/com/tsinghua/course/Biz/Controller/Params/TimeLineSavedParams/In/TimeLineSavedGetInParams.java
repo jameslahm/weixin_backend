@@ -9,13 +9,13 @@ import com.tsinghua.course.Biz.Controller.Params.CommonInParams;
 public class TimeLineSavedGetInParams extends CommonInParams {
 
     @Required
-    String timeLineId;
+    String timeLineSavedId;
 
-    public void setTimeLineId(String timeLineId) {
-        this.timeLineId = timeLineId;
+    public void setTimeLineSavedId(String timeLineSavedId) {
+        this.timeLineSavedId = timeLineSavedId;
     }
 
-    public String getTimeLineId() {
-        return timeLineId;
+    public String getTimeLineSavedId() {
+        return timeLineSavedId;
     }
 }

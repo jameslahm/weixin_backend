@@ -1,8 +1,5 @@
 package com.tsinghua.course.Base.Enum;
 
-import com.tsinghua.course.Base.Model.Group;
-import com.tsinghua.course.Base.Model.TimeLineSync;
-import com.tsinghua.course.Base.Model.User;
 import com.tsinghua.course.Biz.Controller.*;
 import io.netty.handler.codec.http.HttpMethod;
 
@@ -23,9 +20,17 @@ public enum BizTypeEnum {
     GROUP_INVITE(GroupController.class,"/group/invite","Group Invite",HttpMethod.POST),
     GROUP_EXIT(GroupController.class,"/group/exit","Group Exit",HttpMethod.POST),
 
+    // Message
     TIMELINESYNC_GET(TimeLineSyncController.class,"/timelinesync","TimeLine Sync Get",HttpMethod.GET),
     TIMELINESAVED_GET(TimeLineSavedController.class,"/timelinesaved","TimeLine Saved t",HttpMethod.GET),
     MESSAGE_CREATE(MessageController.class,"/message","Message Create",HttpMethod.POST),
+
+    // Discover
+    DISCOVER_CREATE(DiscoverController.class,"/discover","Discover Create",HttpMethod.POST),
+    DISCOVER_GET_BY_FRIENDS(DiscoverController.class,"/discover","Discover Get",HttpMethod.POST),
+    DISCOVER_LIKE(DiscoverController.class,"/discover/like","Discover Like",HttpMethod.POST),
+    DISCOVER_UNLIKE(DiscoverController.class,"/discover/unline","Discover Unlike",HttpMethod.POST),
+    DISCOVER_REPLY(DiscoverController.class,"/discover/reply","Discover Reply",HttpMethod.POST),
 
     /** 定时任务业务测试 */
     LOG_TEST(TimerController.class, null, "定时日志测试",HttpMethod.GET),

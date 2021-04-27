@@ -23,7 +23,7 @@ public class TimeLineSyncController {
     @NeedLogin
     @BizType(BizTypeEnum.TIMELINESYNC_GET)
     public CommonOutParams meLineSyncGet(TimeLineSyncGetInParams inParams){
-        String timeLineId = inParams.getTimeLineId();
+        String timeLineId = inParams.getTimeLineSyncId();
         int timestamp = inParams.getTimestamp();
         TimeLineSync timeLineSync =  timeLineSyncProcessor.getTimeLineSyncById(timeLineId);
 

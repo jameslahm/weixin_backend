@@ -10,18 +10,18 @@ import com.tsinghua.course.Biz.Controller.Params.CommonInParams;
 public class TimeLineSyncGetInParams extends CommonInParams {
 
     @Required
-    String timeLineId;
+    String timeLineSyncId;
 
     @Required
     int timestamp;
 
 
-    public void setTimeLineId(String timeLineId) {
-        this.timeLineId = timeLineId;
+    public void setTimeLineSyncId(String timeLineSyncId) {
+        this.timeLineSyncId = timeLineSyncId;
     }
 
-    public String getTimeLineId() {
-        return timeLineId;
+    public String getTimeLineSyncId() {
+        return timeLineSyncId;
     }
 
     public int getTimestamp() {

@@ -46,7 +46,7 @@ public class UserProcessor {
 
     public User addFriend(User user, User friend){
         List<Friend> friends = user.getFriends();
-        friends.add(new Friend(friend.getWeixinId(),friend.getTimeLineSyncId(),friend.getUsername()));
+        friends.add(new Friend(friend.getId(),friend.getTimeLineSyncId(),friend.getUsername()));
         this.saveUser(user);
         return user;
     }
@@ -68,10 +68,10 @@ public class UserProcessor {
     }
 
     // Attention: check length
-    public List<User> getUsersByWeixinIds(String... weixinIds){
+    public List<User> getUsersByIds(String... weixinIds){
         List<User> users = new ArrayList<>();
         for (String weixinId:weixinIds){
-            User user = getUserByWeixinId(weixinId);
+            User user = getUserById(weixinId);
             if(user!=null){
                 users.add(user);
             }

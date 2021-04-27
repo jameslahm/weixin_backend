@@ -1,15 +1,13 @@
 package com.tsinghua.course.Base.Model;
 
-import org.springframework.data.annotation.Id;
-
 public class Friend {
     String id;
-    String timelineId;
+    String timeLineSavedId;
     String nickName;
 
     public Friend(String id,String timelineId,String nickName){
         this.id = id;
-        this.timelineId = timelineId;
+        this.timeLineSavedId = timelineId;
         this.nickName = nickName;
     }
 
@@ -29,11 +27,11 @@ public class Friend {
         return nickName;
     }
 
-    public void setTimelineId(String timelineId) {
-        this.timelineId = timelineId;
+    public void setTimeLineSavedId(String timeLineSavedId) {
+        this.timeLineSavedId = timeLineSavedId;
     }
 
-    public String getTimelineId() {
-        return timelineId;
+    public String getTimeLineSavedId() {
+        return timeLineSavedId;
     }
 }

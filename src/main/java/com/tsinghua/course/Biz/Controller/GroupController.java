@@ -34,7 +34,7 @@ public class GroupController {
         String name = inParams.getName();
         List<String> members = inParams.getMembers();
 
-        List<User> users = userProcessor.getUsersByWeixinIds();
+        List<User> users = userProcessor.getUsersByIds();
         if(users.size()!=members.size()){
             throw new CourseWarn(UserWarnEnum.BAD_REQUEST);
         }
@@ -47,7 +47,7 @@ public class GroupController {
     @BizType(BizTypeEnum.GROUP_INVITE)
     public CommonOutParams groupInvite(InviteInToGroupInParams inParams) throws Exception {
         String groupId = inParams.getGroupId();
-        String weixinId = inParams.getWeixinId();
+        String id = inParams.getId();
 
         Group group = groupProcessor.getGroupById(groupId);
         if(group==null){
@@ -60,7 +60,7 @@ public class GroupController {
             throw new CourseWarn(UserWarnEnum.BAD_REQUEST);
         }
 
-        User target = userProcessor.getUserByWeixinId(weixinId);
+        User target = userProcessor.getUserById(id);
         groupProcessor.addMemberIntoGroup(user,group);
         return new CommonOutParams(true);
     }
