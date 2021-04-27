@@ -5,8 +5,6 @@ import com.tsinghua.course.Base.Annotation.Required;
 import com.tsinghua.course.Base.Enum.BizTypeEnum;
 import com.tsinghua.course.Biz.Controller.Params.CommonInParams;
 
-import javax.xml.ws.RespectBinding;
-
 @BizType(BizTypeEnum.GROUP_INVITE)
 public class InviteInToGroupInParams extends CommonInParams {
     @Required

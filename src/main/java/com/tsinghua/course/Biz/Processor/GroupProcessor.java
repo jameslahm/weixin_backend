@@ -6,7 +6,6 @@ import com.tsinghua.course.Base.Repository.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.jws.soap.SOAPBinding;
 import java.util.List;
 
 @Component
