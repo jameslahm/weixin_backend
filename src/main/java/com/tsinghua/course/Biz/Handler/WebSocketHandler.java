@@ -35,7 +35,7 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
         BizTypeEnum bizTypeEnum = null;
         JSONObject jsonMsg = new JSONObject();
-        String username = null;
+        String id = null;
         String retStr = new SysErrorOutParams().toString();
         try {
             /** WebSocket只处理文本型消息 */
@@ -61,11 +61,11 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
             params.fromJsonObject(jsonMsg);
             /** 如果不是登录，需要获取用户信息 */
             if (!bizTypeEnum.equals(BizTypeEnum.USER_LOGIN)) {
-                username = SocketUtil.getSocketUser(ctx);
-                params.setUsername(username);
+                id = SocketUtil.getSocketUser(ctx);
+                params.setId(id);
             } else {
-                username = params.getUsername();
-                if (username == null)
+                id = params.getId();
+                if (id == null)
                     throw new CourseWarn(UserWarnEnum.LOGIN_FAILED);
             }
             /** 执行业务 */
@@ -75,10 +75,10 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
             if (e instanceof CourseWarn) {
                 CourseWarn warn = (CourseWarn)e;
                 retStr = new SysWarnOutParams(warn).toString();
-                LogUtil.WARN(username, bizTypeEnum, jsonMsg.toString(), warn);
+                LogUtil.WARN(id, bizTypeEnum, jsonMsg.toString(), warn);
             } else {
                 retStr = new SysErrorOutParams().toString();
-                LogUtil.ERROR(username, bizTypeEnum, jsonMsg.toString(), e);
+                LogUtil.ERROR(id, bizTypeEnum, jsonMsg.toString(), e);
             }
         } finally {
             ctx.channel().write(new TextWebSocketFrame(retStr));

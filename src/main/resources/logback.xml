@@ -4,7 +4,15 @@
     <property name="LOG_HOME" value="./logs"/>
     <property name="contextName" value="label" />
     <contextName>${contextName}</contextName>
+
     <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} -%p ${PID:-} [%15.15t] %logger : %m%n" />
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
     <!-- info日志 appender  -->
     <appender name="INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -92,6 +100,7 @@
         <appender-ref ref="ERROR"/>
         <appender-ref ref="WARN"/>
         <appender-ref ref="INFO" />
+        <appender-ref ref="STDOUT" />
     </logger>
     <root level="INFO">
         <!-- 配置日志监控软件时用到 -->

@@ -7,7 +7,7 @@ import com.tsinghua.course.Base.Enum.BizTypeEnum;
  **/
 public class CommonInParams extends CommonParams {
     /** 发起请求的用户，如果已登录，系统会结合HttpSession或WebSocket长连接自动填充 */
-    protected String username;
+    protected String id;
 
     /** 业务类型，服务器根据此变量来执行不同的业务 */
     protected BizTypeEnum bizType;
@@ -20,12 +20,12 @@ public class CommonInParams extends CommonParams {
         this.bizType = bizType;
     }
 
-    public String getUsername() {
-        return username;
+    public String getId() {
+        return id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override

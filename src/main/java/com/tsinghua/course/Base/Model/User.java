@@ -1,42 +1,47 @@
 package com.tsinghua.course.Base.Model;
 
 import com.tsinghua.course.Base.Enum.UserType;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @描述 对应mongodb中的User集合，mongodb是非关系型数据库，可以存储的对象类型很丰富，使用起来方便很多
  **/
 @Document("User")
 public class User {
-    /** 子对象文档 */
-    public static class SubObj {
-        /** 存储的时间 */
-        String time;
-
-        public String getTime() {
-            return time;
-        }
-
-        public void setTime(String time) {
-            this.time = time;
-        }
-    }
     // mongodb唯一id
+    @Id
     String id;
-    // 用户名
+
+    // weixin ID
+    @Indexed(unique = true)
+    String weixinId;
+
+    //Username
     String username;
-    // 密码
+
+    // Password
     String password;
-    // 用户类型
+
+    // userType
     UserType userType;
-    // 测试数组
-    String[] testArr;
-    // 测试对象
-    Map<String, String> testObj;
-    // 另一个测试对象，和 Map<String, String> 方式存储的格式是一样的，但是直观很多
-    SubObj subObj;
+
+    // timeLineSyncId
+    String timeLineSyncId;
+
+    List<Friend> friends;
+
+    public User(String weixinId,String username,String password,String timeLineSyncId){
+        this.username = username;
+        this.password = password;
+        this.weixinId = weixinId;
+        this.timeLineSyncId = timeLineSyncId;
+        this.friends = new ArrayList<>();
+    }
 
     public String getUsername() {
         return username;
@@ -70,27 +75,27 @@ public class User {
         this.userType = userType;
     }
 
-    public String[] getTestArr() {
-        return testArr;
+    public String getWeixinId() {
+        return weixinId;
     }
 
-    public void setTestArr(String[] testArr) {
-        this.testArr = testArr;
+    public void setWeixinId(String weixinId) {
+        this.weixinId = weixinId;
     }
 
-    public Map<String, String> getTestObj() {
-        return testObj;
+    public String getTimeLineSyncId() {
+        return timeLineSyncId;
     }
 
-    public void setTestObj(Map<String, String> testObj) {
-        this.testObj = testObj;
+    public void setTimeLineSyncId(String timeLineSyncId) {
+        this.timeLineSyncId = timeLineSyncId;
     }
 
-    public SubObj getSubObj() {
-        return subObj;
+    public List<Friend> getFriends() {
+        return friends;
     }
 
-    public void setSubObj(SubObj subObj) {
-        this.subObj = subObj;
+    public void setFriends(List<Friend> friends) {
+        this.friends = friends;
     }
 }

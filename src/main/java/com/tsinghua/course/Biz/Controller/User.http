@@ -1,0 +1,48 @@
+POST http://localhost:7000/user/register
+Content-Type: application/json
+
+{
+  "weixinId": "wangao",
+  "username": "wangao",
+  "password": "123"
+}
+
+###
+
+POST http://localhost:7000/user/login
+Content-Type: application/json
+
+{
+  "weixinId": "wangao",
+  "username": "wangao",
+  "password": "123"
+}
+
+###
+
+POST http://localhost:7000/user/register
+Content-Type: application/json
+
+{
+  "weixinId": "zhangzhi",
+  "username": "zhangzhi",
+  "password": "123"
+}
+
+###
+GET http://localhost:7000/user
+Content-Type: application/json
+
+{
+  "weixinId": "wangao"
+}
+
+###
+POST http://localhost:7000/user/addfriend
+Content-Type: application/json
+
+{
+  "weixinId": "zhangzhi"
+}
+
+

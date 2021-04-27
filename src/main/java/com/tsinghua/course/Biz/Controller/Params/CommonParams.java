@@ -13,11 +13,9 @@ import java.lang.reflect.Field;
 public abstract class CommonParams {
     /** 在转换为jsonObject对象前进行的操作 */
     protected abstract void beforeTransfer();
-
-    /** 转换为jsonObject对象 */
+  /** 转换为jsonObject对象 */
     public JSONObject toJsonObject() throws Exception {
-        beforeTransfer();
-        JSONObject jsonObject = new JSONObject();
+        beforeTransfer();       JSONObject jsonObject = new JSONObject();
         /** 反射获取所有的内部属性，然后设置到json中 */
         Field[] fields = ParseUtil.getAllFields(getClass());
         for (Field field : fields) {

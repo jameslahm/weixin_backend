@@ -1,21 +1,19 @@
-package com.tsinghua.course.Biz.Controller.Params.UserParams.In;
+package com.tsinghua.course.Biz.Controller.Params.GroupParams.In;
 
 import com.tsinghua.course.Base.Annotation.BizType;
 import com.tsinghua.course.Base.Annotation.Required;
 import com.tsinghua.course.Base.Enum.BizTypeEnum;
 import com.tsinghua.course.Biz.Controller.Params.CommonInParams;
 
-/**
- * @描述 用户登录的入参
- **/
-@BizType(BizTypeEnum.USER_LOGIN)
-public class LoginInParams extends CommonInParams {
-    @Required
-    private String weixinId;
+import javax.xml.ws.RespectBinding;
 
-    // 登录用的密码
+@BizType(BizTypeEnum.GROUP_INVITE)
+public class InviteInToGroupInParams extends CommonInParams {
     @Required
-    private String password;
+    String groupId;
+
+    @Required
+    String weixinId;
 
     public void setWeixinId(String weixinId) {
         this.weixinId = weixinId;
@@ -25,11 +23,11 @@ public class LoginInParams extends CommonInParams {
         return weixinId;
     }
 
-    public String getPassword() {
-        return password;
+    public String getGroupId() {
+        return groupId;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 }

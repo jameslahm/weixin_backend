@@ -5,17 +5,10 @@ import com.tsinghua.course.Base.Annotation.Required;
 import com.tsinghua.course.Base.Enum.BizTypeEnum;
 import com.tsinghua.course.Biz.Controller.Params.CommonInParams;
 
-/**
- * @描述 用户登录的入参
- **/
-@BizType(BizTypeEnum.USER_LOGIN)
-public class LoginInParams extends CommonInParams {
+@BizType(BizTypeEnum.USER_GET_PROFILE)
+public class GetProfileInParams extends CommonInParams {
     @Required
     private String weixinId;
-
-    // 登录用的密码
-    @Required
-    private String password;
 
     public void setWeixinId(String weixinId) {
         this.weixinId = weixinId;
@@ -23,13 +16,5 @@ public class LoginInParams extends CommonInParams {
 
     public String getWeixinId() {
         return weixinId;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }

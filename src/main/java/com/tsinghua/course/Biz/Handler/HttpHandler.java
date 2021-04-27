@@ -21,12 +21,7 @@ import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.handler.codec.http.DefaultFullHttpResponse;
-import io.netty.handler.codec.http.FullHttpRequest;
-import io.netty.handler.codec.http.FullHttpResponse;
-import io.netty.handler.codec.http.HttpHeaderNames;
-import io.netty.handler.codec.http.HttpResponseStatus;
-import io.netty.handler.codec.http.HttpVersion;
+import io.netty.handler.codec.http.*;
 import io.netty.handler.codec.http.cookie.Cookie;
 import io.netty.handler.codec.http.cookie.DefaultCookie;
 import io.netty.handler.codec.http.cookie.ServerCookieDecoder;
@@ -77,7 +72,7 @@ public class HttpHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
             /** 获取操作类型 */
             try {
                 String path = requestParams.getString(KeyConstant.PATH);
-                bizTypeEnum = getBizTypeByPath(path);
+                bizTypeEnum = getBizTypeByPath(path,request.method());
                 if (bizTypeEnum == null)
                     throw new CourseWarn(SystemErrorEnum.BIZ_TYPE_NOT_EXIST);
                 requestParams.put(KeyConstant.BIZ_TYPE, bizTypeEnum);
@@ -92,7 +87,7 @@ public class HttpHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
             /** 获取缓存在session中的用户名信息 */
             if (hasPreSession && !bizTypeEnum.equals(BizTypeEnum.USER_LOGIN)) {
-                params.setUsername(httpSession.getUsername());
+                params.setId(httpSession.getId());
             }
 
             /** 使用派发器执行业务并返回业务执行结果 */
@@ -165,11 +160,11 @@ public class HttpHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
     }
 
     /** 根据httpPath获取对应的业务 */
-    private BizTypeEnum getBizTypeByPath(String httpPath) {
+    private BizTypeEnum getBizTypeByPath(String httpPath, HttpMethod method) {
         BizTypeEnum[] bizTypeEnums = BizTypeEnum.values();
         BizTypeEnum ret = null;
         for (BizTypeEnum bizTypeEnum:bizTypeEnums) {
-            if (httpPath.equals(bizTypeEnum.getHttpPath())) {
+            if (httpPath.equals(bizTypeEnum.getHttpPath()) && method.equals(bizTypeEnum.getHttpMethod())) {
                 ret = bizTypeEnum;
                 break;
             }
