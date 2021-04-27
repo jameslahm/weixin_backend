@@ -6,7 +6,7 @@ import com.tsinghua.course.Base.Enum.BizTypeEnum;
 import com.tsinghua.course.Biz.Controller.Params.CommonInParams;
 
 @BizType(BizTypeEnum.GROUP_EXIT)
-public class ExitGroupInParams extends CommonInParams
+public class ExitGroupInParams extends CommonInParams{
 
     @Required
     String groupId;

@@ -17,3 +17,5 @@ public class NameConstant {
     /** 定时任务id名 */
     public static final String TEST_JOB = "testJob";
 }
+
+

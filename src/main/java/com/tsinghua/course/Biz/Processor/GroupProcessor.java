@@ -3,8 +3,6 @@ package com.tsinghua.course.Biz.Processor;
 import com.tsinghua.course.Base.Model.Group;
 import com.tsinghua.course.Base.Model.User;
 import com.tsinghua.course.Base.Repository.GroupRepository;
-import com.tsinghua.course.Biz.Controller.Params.CommonOutParams;
-import org.graalvm.compiler.nodes.GuardPhiNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -53,6 +51,10 @@ public class GroupProcessor {
     }
 
     public Group deleteMemberInGroup(User user,Group group){
+        group.getMembers().removeIf((member)->{
+            return member.getId()==user.getId();
+        });
+        saveGroup(group);
         return group;
     }
 }

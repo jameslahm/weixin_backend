@@ -1,11 +1,9 @@
 package com.tsinghua.course.Base.Enum;
 
 import com.tsinghua.course.Base.Model.Group;
+import com.tsinghua.course.Base.Model.TimeLineSync;
 import com.tsinghua.course.Base.Model.User;
-import com.tsinghua.course.Biz.Controller.GroupController;
-import com.tsinghua.course.Biz.Controller.TestController;
-import com.tsinghua.course.Biz.Controller.TimerController;
-import com.tsinghua.course.Biz.Controller.UserController;
+import com.tsinghua.course.Biz.Controller.*;
 import io.netty.handler.codec.http.HttpMethod;
 
 /**
@@ -24,6 +22,10 @@ public enum BizTypeEnum {
     GROUP_CREATE(GroupController.class,"/group","Group Create",HttpMethod.POST),
     GROUP_INVITE(GroupController.class,"/group/invite","Group Invite",HttpMethod.POST),
     GROUP_EXIT(GroupController.class,"/group/exit","Group Exit",HttpMethod.POST),
+
+    TIMELINESYNC_GET(TimeLineSyncController.class,"/timelinesync","TimeLine Sync Get",HttpMethod.GET),
+    TIMELINESAVED_GET(TimeLineSavedController.class,"/timelinesaved","TimeLine Saved t",HttpMethod.GET),
+    MESSAGE_CREATE(MessageController.class,"/message","Message Create",HttpMethod.POST),
 
     /** 定时任务业务测试 */
     LOG_TEST(TimerController.class, null, "定时日志测试",HttpMethod.GET),

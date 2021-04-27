@@ -11,7 +11,6 @@ public enum UserWarnEnum implements ExceptionInterface {
     PERMISSION_DENIED("UserWarn003", "无权限访问对应内容"),
 
     REGISTER_FAILED("UserWarn004","user register failed"),
-
     BAD_REQUEST("UserWarn005","bad request"),
 
     NOT_FOUND("UserWarn006","not found");

@@ -8,10 +8,7 @@ import com.tsinghua.course.Base.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
-import sun.swing.StringUIClientPropertyKey;
 
-import javax.jws.soap.SOAPBinding;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 

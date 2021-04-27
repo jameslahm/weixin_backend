@@ -52,8 +52,8 @@ public class SocketUtil {
             sendMessageToUser(id, msgs);
     }
     /** 向单个用户发送多个信息 */
-    public static void sendMessageToUser(String weixinId, Collection<CommonOutParams> msgs) throws Exception {
-        ChannelHandlerContext ctx = socketMap.get(weixinId);
+    public static void sendMessageToUser(String id, Collection<CommonOutParams> msgs) throws Exception {
+        ChannelHandlerContext ctx = socketMap.get(id);
         JSONArray jsonArray = new JSONArray();
         for (CommonOutParams commonParams : msgs)
             jsonArray.add(commonParams.toJsonObject());

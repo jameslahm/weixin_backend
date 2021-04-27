@@ -62,7 +62,7 @@ public class GroupController {
 
         User target = userProcessor.getUserByWeixinId(weixinId);
         groupProcessor.addMemberIntoGroup(user,group);
-        return new CommonOutParams(ue);
+        return new CommonOutParams(true);
     }
 
     @NeedLogin
@@ -77,7 +77,5 @@ public class GroupController {
         groupProcessor.deleteMemberInGroup(user,group);
         return new CommonOutParams(true);
     }
-
-
 
 }
