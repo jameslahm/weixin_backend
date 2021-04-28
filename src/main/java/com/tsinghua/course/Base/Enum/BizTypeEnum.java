@@ -27,7 +27,7 @@ public enum BizTypeEnum {
 
     // Discover
     DISCOVER_CREATE(DiscoverController.class,"/discover","Discover Create",HttpMethod.POST),
-    DISCOVER_GET_BY_FRIENDS(DiscoverController.class,"/discover","Discover Get",HttpMethod.POST),
+    DISCOVER_GET_BY_FRIENDS(DiscoverController.class,"/discover","Discover Get",HttpMethod.GET),
     DISCOVER_LIKE(DiscoverController.class,"/discover/like","Discover Like",HttpMethod.POST),
     DISCOVER_UNLIKE(DiscoverController.class,"/discover/unline","Discover Unlike",HttpMethod.POST),
     DISCOVER_REPLY(DiscoverController.class,"/discover/reply","Discover Reply",HttpMethod.POST),
