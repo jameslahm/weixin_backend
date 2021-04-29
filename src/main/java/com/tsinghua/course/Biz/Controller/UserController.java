@@ -5,16 +5,22 @@ import com.tsinghua.course.Base.Annotation.NeedLogin;
 import com.tsinghua.course.Base.Enum.BizTypeEnum;
 import com.tsinghua.course.Base.Error.CourseWarn;
 import com.tsinghua.course.Base.Error.UserWarnEnum;
+import com.tsinghua.course.Base.Model.Friend;
 import com.tsinghua.course.Base.Model.User;
 import com.tsinghua.course.Biz.Controller.Params.CommonInParams;
 import com.tsinghua.course.Biz.Controller.Params.CommonOutParams;
 import com.tsinghua.course.Biz.Controller.Params.UserParams.In.*;
+import com.tsinghua.course.Biz.Controller.Params.UserParams.Out.MeProfileOutParams;
 import com.tsinghua.course.Biz.Controller.Params.UserParams.Out.ProfileOutParams;
 import com.tsinghua.course.Biz.Processor.UserProcessor;
-import com.tsinghua.course.Frame.Util.*;
+import com.tsinghua.course.Frame.Util.HttpSession;
+import com.tsinghua.course.Frame.Util.SocketUtil;
+import com.tsinghua.course.Frame.Util.ThreadUtil;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * @描述 用户控制器，用于执行用户相关的业务
@@ -27,7 +33,7 @@ public class UserController {
 
     /** 用户登录业务 */
     @BizType(BizTypeEnum.USER_LOGIN)
-    public CommonOutParams userSignIn(LoginInParams inParams) throws Exception {
+    public CommonOutParams userLogIn(LoginInParams inParams) throws Exception {
         String weixinId = inParams.getWeixinId();
         User user = userProcessor.getUserByWeixinId(weixinId);
         if (user == null || !user.getPassword().equals(inParams.getPassword()))
@@ -44,7 +50,10 @@ public class UserController {
                 httpSession.setId(user.getId());
             }
         }
-        return new CommonOutParams(true);
+
+        List<Friend.FriendDetail> friendDetails = userProcessor.getFriendDetailsByUser(user);
+
+        return new MeProfileOutParams(user,friendDetails);
     }
 
     @BizType(BizTypeEnum.USER_REGISTER)
@@ -58,7 +67,7 @@ public class UserController {
             throw new CourseWarn(UserWarnEnum.REGISTER_FAILED);
         }
 
-        user = userProcessor.createUser(username,password,weixinId);
+        user = userProcessor.createUser(weixinId,username,password);
 
         return new ProfileOutParams(user);
     }
@@ -78,7 +87,8 @@ public class UserController {
         user= ThreadUtil.getUser();
         userProcessor.updateUser(user,weixinId,username,password);
 
-        return new CommonOutParams(true);
+
+        return new ProfileOutParams(user);
     }
 
     @BizType(BizTypeEnum.USER_GET_PROFILE)
@@ -88,6 +98,7 @@ public class UserController {
         if(target==null){
             throw new CourseWarn(UserWarnEnum.NOT_FOUND);
         }
+
         return new ProfileOutParams(target);
     }
 
@@ -99,6 +110,8 @@ public class UserController {
         ChannelHandlerContext ctx = ThreadUtil.getCtx();
         if(ctx!=null){
             SocketUtil.removeSocket(ctx);
+        } else {
+            HttpSession.removeSession(ThreadUtil.getHttpSession().getSessionId());
         }
         return new CommonOutParams(true);
     }
@@ -106,7 +119,7 @@ public class UserController {
     @NeedLogin
     @BizType(BizTypeEnum.USER_CONFIRM_ADD_FRIEND)
     public CommonOutParams userConfirmAddFriend(ConfirmAddFriendInParams inParams) throws Exception {
-        String friendId = inParams.getId();
+        String friendId = inParams.getFriendId();
         User friend = userProcessor.getUserById(friendId);
         if(friend==null) {
             throw new CourseWarn(UserWarnEnum.NOT_FOUND);
@@ -114,6 +127,7 @@ public class UserController {
         User user = ThreadUtil.getUser();
 
         userProcessor.addFriend(user,friend);
+        userProcessor.addFriend(friend,user);
 //        List friendList = Arrays.asList(friends);
 //        friendList.add(new Friend(friendId,user.getTimeLineSyncId(),user.getUsername()));
 //        friendList.toArray(friends);

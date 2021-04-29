@@ -7,14 +7,12 @@ import com.tsinghua.course.Biz.Controller.Params.CommonInParams;
 
 @BizType(BizTypeEnum.USER_PUT_PROFILE)
 public class UpdateProfileInParams extends CommonInParams {
-
     @Required
     private String weixinId;
 
     @Required
     private String username;
 
-    @Required
     private String password;
 
     public void setUsername(String username) {

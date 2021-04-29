@@ -1,5 +1,8 @@
 package com.tsinghua.course.Frame.Util;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -7,9 +10,13 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @描述 http的session，用于记录http连接的信息
  **/
+@Component
 public class HttpSession {
 
-    private static final Map<String, HttpSession> sessionMap = new ConcurrentHashMap<>();
+    public static final Map<String, HttpSession> sessionMap = new ConcurrentHashMap<>();
+
+    @Autowired
+    private static RedisUtil redisUtil;
 
     /** session的id和对应的用户名 */
     private String sessionId;
@@ -30,6 +37,7 @@ public class HttpSession {
 
     public void setId(String id) {
         this.id = id;
+//        redisUtil.setKey(sessionId,id);
     }
 
     public static boolean sessionExist(String sessionId) {
@@ -41,6 +49,10 @@ public class HttpSession {
         HttpSession session = new HttpSession();
         String sessionId = session.getSessionId();
         sessionMap.put(sessionId, session);
+//        String id =  redisUtil.getString(sessionId);
+//        if(id!=null){
+//            session.setId(id);
+//        }
         return session;
     }
 
@@ -51,5 +63,6 @@ public class HttpSession {
     /** 移除session */
     public static void removeSession(String sessionId) {
         sessionMap.remove(sessionId);
+//        redisUtil.deleteKeys(sessionId);
     }
 }

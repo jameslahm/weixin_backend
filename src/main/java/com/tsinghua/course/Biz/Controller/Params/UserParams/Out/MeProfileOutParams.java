@@ -6,7 +6,7 @@ import com.tsinghua.course.Biz.Controller.Params.CommonOutParams;
 
 import java.util.List;
 
-public class ProfileOutParams extends CommonOutParams {
+public class MeProfileOutParams extends CommonOutParams {
     String username;
 
     String id;
@@ -15,14 +15,14 @@ public class ProfileOutParams extends CommonOutParams {
 
     String weixinId;
 
-    List<Friend> friends;
+    List<Friend.FriendDetail> friends;
 
-    public ProfileOutParams(User user){
+    public MeProfileOutParams(User user, List<Friend.FriendDetail> friends){
         this.username = user.getUsername();
         this.id = user.getId();
         this.weixinId = user.getWeixinId();
         this.avatar = user.getAvatar();
-        this.friends = user.getFriends();
+        this.friends = friends;
     }
 
     public String getUsername() {

@@ -12,6 +12,7 @@ public enum BizTypeEnum {
     USER_LOGOUT(UserController.class,"/user/logout","User Logout",HttpMethod.POST),
     USER_REGISTER(UserController.class,"/user/register","User SignUp",HttpMethod.POST),
     USER_GET_PROFILE(UserController.class,"/user","User Get Profile",HttpMethod.GET),
+    USER_GET_PROFILES_BY_IDS(UserController.class,"/users","User Get file By Ids",HttpMethod.GET),
     USER_PUT_PROFILE(UserController.class,"/user","User Put Profile",HttpMethod.PUT),
     USER_CONFIRM_ADD_FRIEND(UserController.class,"/user/addfriend","User confirm add friend",HttpMethod.POST),
 
@@ -33,18 +34,7 @@ public enum BizTypeEnum {
     DISCOVER_REPLY(DiscoverController.class,"/discover/reply","Discover Reply",HttpMethod.POST),
 
     /** 定时任务业务测试 */
-    LOG_TEST(TimerController.class, null, "定时日志测试",HttpMethod.GET),
-
-    /** 测试业务，在书写正式代码时可以删除，在书写正式代码前先运行测试业务，如果测试业务无问题说明各模块正常 */
-    LOGIN_TEST(TestController.class, "/test/loginPermission", "登录控制测试",HttpMethod.GET),
-    ADMIN_TEST(TestController.class, "/test/adminPermission", "管理员权限控制测试",HttpMethod.GET),
-    REDIS_TEST(TestController.class, "/test/redis", "redis缓存测试",HttpMethod.GET),
-    TIMER_TEST(TestController.class, "/test/timer", "定时器测试",HttpMethod.GET),
-    ERROR_TEST(TestController.class, "/test/error", "内部报错测试",HttpMethod.GET),
-    FILE_UPLOAD_TEST(TestController.class, "/test/upload", "文件上传测试",HttpMethod.GET),
-    FILE_DOWNLOAD_TEST(TestController.class, "/test/url", "获取文件下载的路径",HttpMethod.GET),
-    MULTI_RETURN_TEST(TestController.class, "/test/multiParams", "返回多个参数的测试",HttpMethod.GET),
-    MONGODB_TEST(TestController.class, "/test/mongodb", "mongodb数据库功能测试",HttpMethod.GET);
+    LOG_TEST(TimerController.class, null, "定时日志测试",HttpMethod.GET);
 
     BizTypeEnum(Class<?> controller, String httpPath, String description, HttpMethod httpMethod) {
         this.controller = controller;

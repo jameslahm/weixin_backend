@@ -12,8 +12,13 @@ import java.util.concurrent.TimeUnit;
  **/
 @Component
 public class RedisUtil {
-    @Autowired
+
     private RedisTemplate<String, String> redisTemplate;
+
+    @Autowired
+    public RedisUtil(RedisTemplate redisTemplate){
+        this.redisTemplate = redisTemplate;
+    }
 
     /** 是否存在某个key */
     public boolean hasKey(String key) {

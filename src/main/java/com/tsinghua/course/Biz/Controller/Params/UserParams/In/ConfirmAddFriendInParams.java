@@ -8,13 +8,13 @@ import com.tsinghua.course.Biz.Controller.Params.CommonInParams;
 @BizType(BizTypeEnum.USER_CONFIRM_ADD_FRIEND)
 public class ConfirmAddFriendInParams extends CommonInParams {
     @Required
-    private String id;
+    private String friendId;
 
-    public String getId() {
-        return id;
+    public String getFriendId() {
+        return friendId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setFriendId(String friendId) {
+        this.friendId = friendId;
     }
 }

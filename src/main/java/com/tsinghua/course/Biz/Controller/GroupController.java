@@ -34,7 +34,7 @@ public class GroupController {
         String name = inParams.getName();
         List<String> members = inParams.getMembers();
 
-        List<User> users = userProcessor.getUsersByIds();
+        List<User> users = userProcessor.getUsersByIds(members);
         if(users.size()!=members.size()){
             throw new CourseWarn(UserWarnEnum.BAD_REQUEST);
         }

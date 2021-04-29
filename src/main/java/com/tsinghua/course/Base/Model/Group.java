@@ -15,12 +15,22 @@ public class Group {
 
     String timeLineSyncId;
 
+    String avatar = "http://139.196.81.14:7998/upload/avatar1.jpeg";
+
     @DBRef
     List<User> members;
 
     public Group(String name, List<User> members){
         this.name = name;
         this.members = members;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getTimeLineSyncId() {

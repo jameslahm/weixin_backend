@@ -52,7 +52,7 @@ POST http://localhost:7000/user/addfriend
 Content-Type: application/json
 
 {
-  "weixinId": "zhangzhi"
+  "friendId":"608a6a30fc794c6c2c85846d"
 }
 
 

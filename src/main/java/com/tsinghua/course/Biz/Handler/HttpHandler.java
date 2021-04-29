@@ -86,7 +86,7 @@ public class HttpHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
             params.fromJsonObject(requestParams);
 
             /** 获取缓存在session中的用户名信息 */
-            if (hasPreSession && !bizTypeEnum.equals(BizTypeEnum.USER_LOGIN)) {
+            if (!bizTypeEnum.equals(BizTypeEnum.USER_LOGIN)) {
                 params.setId(httpSession.getId());
             }
 
@@ -176,12 +176,15 @@ public class HttpHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
     private void getSession(FullHttpRequest msg) {
         hasPreSession = false;
         String cookieStr = msg.headers().get(HttpHeaderNames.COOKIE);
+        LogUtil.INFO("Cookie", String.valueOf(cookieStr));
+        LogUtil.INFO(HttpSession.sessionMap);
         if (cookieStr != null && !cookieStr.equals("")) {
             Set<Cookie> cookieSet = ServerCookieDecoder.STRICT.decode(cookieStr);
             for (Cookie cookie:cookieSet) {
                 if (cookie.name().equals(NameConstant.HTTP_SESSION_NAME))
                     if (HttpSession.sessionExist(cookie.value())) {
                         this.httpSession = HttpSession.getSession(cookie.value());
+                        LogUtil.INFO("Session",String.valueOf(httpSession.getId()));
                         hasPreSession = true;
                         break;
                     }
@@ -205,7 +208,9 @@ public class HttpHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
         if (!hasPreSession) {
             Cookie cookie = new DefaultCookie(NameConstant.HTTP_SESSION_NAME, httpSession.getSessionId());
             cookie.setPath("/");
+            cookie.setMaxAge(60 * 60 * 24 * 30);
             String encodeCookie = ServerCookieEncoder.STRICT.encode(cookie);
+            LogUtil.INFO("Set-Cookie",encodeCookie);
             response.headers().set(HttpHeaderNames.SET_COOKIE,encodeCookie);
         }
 

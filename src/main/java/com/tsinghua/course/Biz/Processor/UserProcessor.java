@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @描述 用户原子处理器，所有与用户相关的原子操作都在此处理器中执行
@@ -62,21 +63,28 @@ public class UserProcessor {
     public User updateUser(User user, String weixinId, String username, String password){
         user.setWeixinId(weixinId);
         user.setUsername(username);
-        user.setPassword(password);
+        if(password!=null){
+            user.setPassword(password);
+        }
         saveUser(user);
         return user;
     }
 
     // Attention: check length
-    public List<User> getUsersByIds(String... weixinIds){
-        List<User> users = new ArrayList<>();
-        for (String weixinId:weixinIds){
-            User user = getUserById(weixinId);
-            if(user!=null){
-                users.add(user);
-            }
-        }
-        return users;
+    public List<User> getUsersByIds(List<String> ids){
+        return userRepository.findAllByIdIn(ids);
     }
 
+    public List<Friend.FriendDetail> getFriendDetailsByUser(User user){
+        List<Friend> friends = user.getFriends();
+        List<String> friendIds = friends.stream().map(friend -> {
+            return friend.getId();
+        }).collect(Collectors.toList());
+        List<User> friendUsers = getUsersByIds(friendIds);
+        List<Friend.FriendDetail> friendDetails = new ArrayList<>();
+        for (int index=0;index<friendUsers.size();index++){
+            friendDetails.add(new Friend.FriendDetail(friends.get(index),friendUsers.get(index)));
+        }
+        return friendDetails;
+    }
 }

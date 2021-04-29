@@ -35,12 +35,22 @@ public class User {
 
     List<Friend> friends;
 
+    String avatar = "http://139.196.81.14:7998/upload/avatar1.jpeg";
+
     public User(String weixinId,String username,String password,String timeLineSyncId){
         this.username = username;
         this.password = password;
         this.weixinId = weixinId;
         this.timeLineSyncId = timeLineSyncId;
         this.friends = new ArrayList<>();
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getUsername() {
