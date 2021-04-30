@@ -46,6 +46,7 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
             try {
                 jsonMsg = JSON.parseObject(((TextWebSocketFrame)msg).text());
                 String bizTypeStr = jsonMsg.getString(KeyConstant.BIZ_TYPE);
+                LogUtil.INFO(bizTypeStr);
                 bizTypeEnum = BizTypeEnum.valueOf(bizTypeStr);
                 jsonMsg.put(KeyConstant.BIZ_TYPE, bizTypeEnum);
             } catch (Exception e) {

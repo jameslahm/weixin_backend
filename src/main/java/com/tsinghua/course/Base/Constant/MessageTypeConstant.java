@@ -5,6 +5,7 @@ public class MessageTypeConstant {
     public final static String GROUP = "GROUP";
     public final static String APPLICATION = "APPLICATION";
     public final static String INVITE = "INVITE";
+    public final static String CONFIRM = "CONFIRM";
 
     static public boolean checkMessageTypeValid(String messageType){
         switch (messageType){
@@ -12,6 +13,7 @@ public class MessageTypeConstant {
             case GROUP:
             case APPLICATION:
             case INVITE:
+            case CONFIRM:
                 return true;
             default:
                 return false;

@@ -51,6 +51,7 @@ public class SocketUtil {
     public static void sendMessageToUser(String id, String content) throws Exception {
         ChannelHandlerContext ctx = socketMap.get(id);
         if (ctx != null && ctx.channel().isActive()) {
+            LogUtil.INFO("Send WebSocket ",content);
             ctx.channel().writeAndFlush(new TextWebSocketFrame(content));
         }
     }

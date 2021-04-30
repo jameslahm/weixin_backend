@@ -9,9 +9,11 @@ public class CreateMessageOutParams extends CommonOutParams {
     String messageType;
     String to;
     String from;
+    String id;
     long timestamp;
 
     public CreateMessageOutParams(Message message){
+        this.id =message.getId();
         this.content = message.getContent();
         this.contentType = message.getContentType();
         this.messageType = message.getMessageType();

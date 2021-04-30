@@ -16,7 +16,7 @@ public class MessageProcessor {
     }
 
     public Message createMessage(String content,String contentType,String messageType,
-                                 int timestamp,String from,String to){
+                                 long timestamp,String from,String to){
         Message message = new Message(content,contentType,messageType,timestamp,from,to);
         saveMessage(message);
         return message;

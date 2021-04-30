@@ -1,8 +1,10 @@
 package com.tsinghua.course.Biz.Processor;
 
 import com.tsinghua.course.Base.Model.Friend;
+import com.tsinghua.course.Base.Model.TimeLineSaved;
 import com.tsinghua.course.Base.Model.TimeLineSync;
 import com.tsinghua.course.Base.Model.User;
+import com.tsinghua.course.Base.Repository.TimeLineSavedRepository;
 import com.tsinghua.course.Base.Repository.TimeLineSyncRepository;
 import com.tsinghua.course.Base.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class UserProcessor {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    TimeLineSavedRepository timeLineSavedRepository;
     /** 根据用户名从数据库中获取用户 */
 //    public User getUserByUsername(String username) {
 //        Query query = new Query();
@@ -45,12 +50,23 @@ public class UserProcessor {
         return userRepository.findUserById(id);
     }
 
-    public User addFriend(User user, User friend){
+    public String addFriend(User user, User friend){
+        TimeLineSaved timeLineSaved = new TimeLineSaved();
+        timeLineSavedRepository.save(timeLineSaved);
+
+        // Add friend into user's friends
         List<Friend> friends = user.getFriends();
-        friends.add(new Friend(friend.getId(),friend.getTimeLineSyncId(),friend.getUsername()));
+        friends.add(new Friend(friend.getId(),timeLineSaved.getId(),friend.getUsername()));
         this.saveUser(user);
-        return user;
+
+        // Add user into friend's friends;
+        friends = friend.getFriends();
+        friends.add(new Friend(user.getId(),timeLineSaved.getId(),user.getUsername()));
+        this.saveUser(friend);
+
+        return timeLineSaved.getId();
     }
+
 
     public User createUser(String weixinId,String username,String password){
         TimeLineSync timeLineSync = new TimeLineSync();

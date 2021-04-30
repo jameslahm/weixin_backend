@@ -61,7 +61,7 @@ public class MessageController {
         String messageType = inParams.getMessageType();
         String from = inParams.getId();
         String to = inParams.getTo();
-        int timestamp = inParams.getTimestamp();
+        long timestamp = inParams.getTimestamp();
 
         if(!MessageTypeConstant.checkMessageTypeValid(messageType)){
             throw new CourseWarn(UserWarnEnum.BAD_REQUEST);

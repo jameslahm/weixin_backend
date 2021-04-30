@@ -17,6 +17,7 @@ import com.tsinghua.course.Biz.Controller.Params.GroupParams.In.InviteInToGroupI
 import com.tsinghua.course.Biz.Controller.Params.GroupParams.Out.GroupProfileOutParams;
 import com.tsinghua.course.Biz.Controller.Params.MessageParams.Out.CreateInviteInToGroupOutParams;
 import com.tsinghua.course.Biz.Processor.GroupProcessor;
+import com.tsinghua.course.Biz.Processor.MessageProcessor;
 import com.tsinghua.course.Biz.Processor.UserProcessor;
 import com.tsinghua.course.Frame.Util.SocketUtil;
 import com.tsinghua.course.Frame.Util.ThreadUtil;
@@ -32,6 +33,9 @@ public class GroupController {
 
     @Autowired
     UserProcessor userProcessor;
+
+    @Autowired
+    MessageProcessor messageProcessor;
 
     @NeedLogin
     @BizType(BizTypeEnum.GROUP_CREATE)
@@ -69,7 +73,7 @@ public class GroupController {
         groupProcessor.addMemberIntoGroup(target,group);
 
         String content = "You have been invited into "+ group.getName();
-        Message message = new Message(content, ContentTypeConstant.TEXT, MessageTypeConstant.INVITE,
+        Message message = messageProcessor.createMessage(content, ContentTypeConstant.TEXT, MessageTypeConstant.INVITE,
                 System.currentTimeMillis(),user.getId(),target.getId());
         SocketUtil.sendMessageToUser(target.getId(),new CreateInviteInToGroupOutParams(message,group));
 

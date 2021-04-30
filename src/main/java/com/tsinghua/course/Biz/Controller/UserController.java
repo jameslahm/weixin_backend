@@ -2,16 +2,24 @@ package com.tsinghua.course.Biz.Controller;
 
 import com.tsinghua.course.Base.Annotation.BizType;
 import com.tsinghua.course.Base.Annotation.NeedLogin;
+import com.tsinghua.course.Base.Constant.ContentTypeConstant;
+import com.tsinghua.course.Base.Constant.MessageTypeConstant;
 import com.tsinghua.course.Base.Enum.BizTypeEnum;
 import com.tsinghua.course.Base.Error.CourseWarn;
 import com.tsinghua.course.Base.Error.UserWarnEnum;
 import com.tsinghua.course.Base.Model.Friend;
+import com.tsinghua.course.Base.Model.Message;
 import com.tsinghua.course.Base.Model.User;
 import com.tsinghua.course.Biz.Controller.Params.CommonInParams;
 import com.tsinghua.course.Biz.Controller.Params.CommonOutParams;
+import com.tsinghua.course.Biz.Controller.Params.MessageParams.Out.CreateConfirmMessageOutParams;
+import com.tsinghua.course.Biz.Controller.Params.MessageParams.Out.CreateMessageOutParams;
 import com.tsinghua.course.Biz.Controller.Params.UserParams.In.*;
 import com.tsinghua.course.Biz.Controller.Params.UserParams.Out.MeProfileOutParams;
 import com.tsinghua.course.Biz.Controller.Params.UserParams.Out.ProfileOutParams;
+import com.tsinghua.course.Biz.Processor.MessageProcessor;
+import com.tsinghua.course.Biz.Processor.TimeLineSavedProcessor;
+import com.tsinghua.course.Biz.Processor.TimeLineSyncProcessor;
 import com.tsinghua.course.Biz.Processor.UserProcessor;
 import com.tsinghua.course.Frame.Util.HttpSession;
 import com.tsinghua.course.Frame.Util.SocketUtil;
@@ -30,6 +38,15 @@ public class UserController {
 
     @Autowired
     UserProcessor userProcessor;
+
+    @Autowired
+    TimeLineSavedProcessor timeLineSavedProcessor;
+
+    @Autowired
+    TimeLineSyncProcessor timeLineSyncProcessor;
+
+    @Autowired
+    MessageProcessor messageProcessor;
 
     /** 用户登录业务 */
     @BizType(BizTypeEnum.USER_LOGIN)
@@ -122,10 +139,26 @@ public class UserController {
         if(friend==null) {
             throw new CourseWarn(UserWarnEnum.NOT_FOUND);
         }
-        User user = ThreadUtil.getUser();
+      User user = ThreadUtil.getUser();
 
-        userProcessor.addFriend(user,friend);
-        userProcessor.addFriend(friend,user);
+        String timeLineSavedId =  userProcessor.addFriend(user,friend);
+
+        long timestamp = System.currentTimeMillis();
+
+        Message message = messageProcessor.createMessage(
+            user.getUsername() + " have accepted your application",
+                ContentTypeConstant.TEXT,
+                MessageTypeConstant.CONFIRM,
+                timestamp,
+                user.getId(),
+                friend.getId()
+        );
+        timeLineSavedProcessor.addMessageInToTimeLineSaved(timeLineSavedId,message);
+        timeLineSyncProcessor.addMessageInToTimeLineSync(friend.getTimeLineSyncId(),message);
+
+        CreateMessageOutParams outParams = new CreateConfirmMessageOutParams(message,user);
+        SocketUtil.sendMessageToUser(friend.getId(),outParams);
+
 //        List friendList = Arrays.asList(friends);
 //        friendList.add(new Friend(friendId,user.getTimeLineSyncId(),user.getUsername()));
 //        friendList.toArray(friends);

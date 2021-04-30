@@ -22,7 +22,7 @@ public class CreateMessageInParams extends CommonInParams {
     String to;
 
     @Required
-    int timestamp;
+    long timestamp;
 
     public void setMessageType(String messageType) {
         this.messageType = messageType;
@@ -56,11 +56,11 @@ public class CreateMessageInParams extends CommonInParams {
         return to;
     }
 
-    public int getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(int timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 }
