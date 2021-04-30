@@ -25,6 +25,7 @@ public enum BizTypeEnum {
     TIMELINESYNC_GET(TimeLineSyncController.class,"/timelinesync","TimeLine Sync Get",HttpMethod.GET),
     TIMELINESAVED_GET(TimeLineSavedController.class,"/timelinesaved","TimeLine Saved t",HttpMethod.GET),
     MESSAGE_CREATE(MessageController.class,"/message","Message Create",HttpMethod.POST),
+    MESSAGE_PING(MessageController.class,"/message/ping","Message Ping",HttpMethod.POST),
 
     // Discover
     DISCOVER_CREATE(DiscoverController.class,"/discover","Discover Create",HttpMethod.POST),

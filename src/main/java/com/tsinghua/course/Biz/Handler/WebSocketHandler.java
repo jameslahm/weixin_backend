@@ -6,7 +6,6 @@ import com.tsinghua.course.Base.Constant.KeyConstant;
 import com.tsinghua.course.Base.Enum.BizTypeEnum;
 import com.tsinghua.course.Base.Error.CourseWarn;
 import com.tsinghua.course.Base.Error.SystemErrorEnum;
-import com.tsinghua.course.Base.Error.UserWarnEnum;
 import com.tsinghua.course.Biz.Controller.Params.CommonInParams;
 import com.tsinghua.course.Biz.Controller.Params.DefaultParams.Out.SysErrorOutParams;
 import com.tsinghua.course.Biz.Controller.Params.DefaultParams.Out.SysWarnOutParams;
@@ -37,6 +36,7 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
         JSONObject jsonMsg = new JSONObject();
         String id = null;
         String retStr = new SysErrorOutParams().toString();
+        LogUtil.INFO(msg);
         try {
             /** WebSocket只处理文本型消息 */
             if (!(msg instanceof TextWebSocketFrame)) {
@@ -55,6 +55,7 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
             ThreadUtil.clean();
             /** 保存管道，方便以后对该用户发送消息 */
             ThreadUtil.setCtx(ctx);
+
             /** 根据操作类型获取参数 */
             Class<CommonInParams> clz = dispatcher.getParamByBizType(bizTypeEnum);
             CommonInParams params = clz.newInstance();
@@ -64,9 +65,7 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
                 id = SocketUtil.getSocketUser(ctx);
                 params.setId(id);
             } else {
-                id = params.getId();
-                if (id == null)
-                    throw new CourseWarn(UserWarnEnum.LOGIN_FAILED);
+
             }
             /** 执行业务 */
             retStr = dispatcher.dispatch(params);

@@ -44,11 +44,9 @@ public class UserController {
         /** ctx不为空记录WebSocket状态，否则记录http状态 */
         if (ctx != null)
             SocketUtil.setUserSocket(user.getId(), ctx);
-        else {
-            HttpSession httpSession = ThreadUtil.getHttpSession();
-            if (httpSession != null) {
-                httpSession.setId(user.getId());
-            }
+        HttpSession httpSession = ThreadUtil.getHttpSession();
+        if (httpSession != null) {
+            httpSession.setId(user.getId());
         }
 
         List<Friend.FriendDetail> friendDetails = userProcessor.getFriendDetailsByUser(user);

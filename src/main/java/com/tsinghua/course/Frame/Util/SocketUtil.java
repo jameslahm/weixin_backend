@@ -1,11 +1,9 @@
 package com.tsinghua.course.Frame.Util;
 
-import com.alibaba.fastjson.JSONArray;
 import com.tsinghua.course.Biz.Controller.Params.CommonOutParams;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -39,26 +37,21 @@ public class SocketUtil {
         }
     }
     /** 向单个用户发送单个信息 */
-    public static void sendMessageToUser(String id, CommonOutParams msgs) throws Exception {
-        sendMessageToUser(id, Arrays.asList(msgs));
+    public static void sendMessageToUser(String id, CommonOutParams outParams) throws Exception {
+        sendMessageToUser(id, outParams.toString());
     }
     /** 向多个用户发送单个信息 */
     public static void sendMessageToUsers(Collection<String> ids, CommonOutParams msgs) throws Exception {
-        sendMessageToUsers(ids, Arrays.asList(msgs));
+        for(String id:ids){
+            sendMessageToUser(id,msgs);
+        };
     }
-    /** 向多个用户发送多个信息 */
-    public static void sendMessageToUsers(Collection<String> ids, Collection<CommonOutParams> msgs) throws Exception {
-        for (String id : ids)
-            sendMessageToUser(id, msgs);
-    }
+
     /** 向单个用户发送多个信息 */
-    public static void sendMessageToUser(String id, Collection<CommonOutParams> msgs) throws Exception {
+    public static void sendMessageToUser(String id, String content) throws Exception {
         ChannelHandlerContext ctx = socketMap.get(id);
-        JSONArray jsonArray = new JSONArray();
-        for (CommonOutParams commonParams : msgs)
-            jsonArray.add(commonParams.toJsonObject());
         if (ctx != null && ctx.channel().isActive()) {
-            ctx.channel().writeAndFlush(new TextWebSocketFrame(jsonArray.toString()));
+            ctx.channel().writeAndFlush(new TextWebSocketFrame(content));
         }
     }
 }

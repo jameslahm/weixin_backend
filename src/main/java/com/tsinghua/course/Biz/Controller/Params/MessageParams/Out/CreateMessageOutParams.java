@@ -9,7 +9,7 @@ public class CreateMessageOutParams extends CommonOutParams {
     String messageType;
     String to;
     String from;
-    int timestamp;
+    long timestamp;
 
     public CreateMessageOutParams(Message message){
         this.content = message.getContent();

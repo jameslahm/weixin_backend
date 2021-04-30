@@ -11,14 +11,14 @@ public class InviteInToGroupInParams extends CommonInParams {
     String groupId;
 
     @Required
-    String weixinId;
+    String friendId;
 
-    public void setWeixinId(String weixinId) {
-        this.weixinId = weixinId;
+    public String getFriendId() {
+        return friendId;
     }
 
-    public String getWeixinId() {
-        return weixinId;
+    public void setFriendId(String friendId) {
+        this.friendId = friendId;
     }
 
     public String getGroupId() {

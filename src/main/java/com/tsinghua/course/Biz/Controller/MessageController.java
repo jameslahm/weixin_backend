@@ -13,7 +13,10 @@ import com.tsinghua.course.Base.Model.Message;
 import com.tsinghua.course.Base.Model.User;
 import com.tsinghua.course.Biz.Controller.Params.CommonOutParams;
 import com.tsinghua.course.Biz.Controller.Params.MessageParams.In.CreateMessageInParams;
+import com.tsinghua.course.Biz.Controller.Params.MessageParams.In.PingInParams;
+import com.tsinghua.course.Biz.Controller.Params.MessageParams.Out.CreateApplicationMessageOutParams;
 import com.tsinghua.course.Biz.Controller.Params.MessageParams.Out.CreateMessageOutParams;
+import com.tsinghua.course.Biz.Controller.Params.MessageParams.Out.PingOutParams;
 import com.tsinghua.course.Biz.Processor.*;
 import com.tsinghua.course.Frame.Util.SocketUtil;
 import com.tsinghua.course.Frame.Util.ThreadUtil;
@@ -40,6 +43,16 @@ public class MessageController {
     @Autowired
     TimeLineSavedProcessor timeLineSavedProcessor;
 
+    @BizType(BizTypeEnum.MESSAGE_PING)
+    public CommonOutParams messagePing(PingInParams inParams) throws Exception {
+        User user = userProcessor.getUserById(inParams.getTo());
+        if(user==null){
+            throw new CourseWarn(UserWarnEnum.BAD_REQUEST);
+        }
+        SocketUtil.sendMessageToUser(user.getId(),new PingOutParams(inParams.getPing()));
+        return new CommonOutParams(true);
+    }
+
     @NeedLogin
     @BizType(BizTypeEnum.MESSAGE_CREATE)
     public CommonOutParams messageCreate(CreateMessageInParams inParams) throws Exception {
@@ -58,10 +71,22 @@ public class MessageController {
         }
 
         Message message = messageProcessor.createMessage(content,contentType,messageType,timestamp,from,to);
-        CreateMessageOutParams outParams = new CreateMessageOutParams(message);
 
         switch (messageType) {
             case MessageTypeConstant.APPLICATION:
+            {
+                User target = userProcessor.getUserById(to);
+                if(target==null){
+                    throw new CourseWarn(UserWarnEnum.BAD_REQUEST);
+                }
+
+                User user = ThreadUtil.getUser();
+                timeLineSyncProcessor.addMessageInToTimeLineSync(target.getTimeLineSyncId(), message);
+
+                CreateApplicationMessageOutParams outParams = new CreateApplicationMessageOutParams(message,user);
+                SocketUtil.sendMessageToUser(target.getId(),outParams);
+                break;
+            }
             case MessageTypeConstant.SINGLE:
             {
                 User target = userProcessor.getUserById(to);
@@ -77,6 +102,8 @@ public class MessageController {
 
                 timeLineSavedProcessor.addMessageInToTimeLineSaved(friend.getTimeLineSavedId(),message);
                 timeLineSyncProcessor.addMessageInToTimeLineSync(target.getTimeLineSyncId(),message);
+
+                CreateMessageOutParams outParams = new CreateMessageOutParams(message);
                 SocketUtil.sendMessageToUser(target.getId(),outParams);
                 break;
             }
@@ -89,18 +116,20 @@ public class MessageController {
                 List<User> members = group.getMembers();
                 List<String> timeLineSyncIds = members.stream().map((member)-> member.getTimeLineSyncId()).collect(Collectors.toList());
 
-                timeLineSavedProcessor.addMessageInToTimeLineSaved(group.getTimeLineSyncId(),message);
+                timeLineSavedProcessor.addMessageInToTimeLineSaved(group.getTimeLineSavedId(),message);
                 timeLineSyncProcessor.addMessageInToTimeLineSyncs(timeLineSyncIds,message);
 
                 List<String> ids = members.stream().map((member)-> member.getId()).collect(Collectors.toList());
+
+                CreateMessageOutParams outParams = new CreateMessageOutParams(message);
                 SocketUtil.sendMessageToUsers(ids,outParams);
                 break;
             }
             default:{
-                throw new Exception("Should not reach here");
+
             }
         }
-        return outParams;
+        return new CommonOutParams(true);
     }
 }
 

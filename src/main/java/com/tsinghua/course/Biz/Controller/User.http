@@ -1,3 +1,14 @@
+###
+POST http://localhost:7000/message/ping
+Content-Type: application/json
+
+{
+  "to": "608a776586bb2a613fc7109d",
+  "ping": "123"
+}
+
+
+###
 POST http://localhost:7000/user/register
 Content-Type: application/json
 

@@ -15,14 +15,14 @@ public class Message {
 
     String messageType;
 
-    int timestamp;
+    long timestamp;
 
     String from;
 
     String to;
 
     public Message(String content,String contentType,
-                   String messageType,int timestamp,
+                   String messageType,long timestamp,
                    String from,String to){
         this.content = content;
         this.contentType = contentType;
@@ -40,11 +40,11 @@ public class Message {
         this.content = content;
     }
 
-    public int getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(int timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 

@@ -13,7 +13,7 @@ public class Group {
 
     String name;
 
-    String timeLineSyncId;
+    String timeLineSavedId;
 
     String avatar = "http://139.196.81.14:7998/upload/avatar1.jpeg";
 
@@ -33,12 +33,12 @@ public class Group {
         this.avatar = avatar;
     }
 
-    public String getTimeLineSyncId() {
-        return timeLineSyncId;
+    public String getTimeLineSavedId() {
+        return timeLineSavedId;
     }
 
-    public void setTimeLineSyncId(String timeLineSyncId) {
-        this.timeLineSyncId = timeLineSyncId;
+    public void setTimeLineSavedId(String timeLineSavedId) {
+        this.timeLineSavedId = timeLineSavedId;
     }
 
     public void setId(String id) {
