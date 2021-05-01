@@ -47,7 +47,21 @@ public class GroupController {
         if(users.size()!=members.size()){
             throw new CourseWarn(UserWarnEnum.BAD_REQUEST);
         }
+
+        users.add(0,ThreadUtil.getUser());
         Group group =  groupProcessor.createGroup(name,users);
+        users.remove(0);
+
+        String content = "You have been invited into "+ group.getName();
+
+        User user = ThreadUtil.getUser();
+        for (User target: users){
+            Message message = messageProcessor.createMessage(content, ContentTypeConstant.TEXT, MessageTypeConstant.INVITE,
+                    System.currentTimeMillis(),user.getId(),target.getId());
+            SocketUtil.sendMessageToUser(target.getId(),new CreateInviteInToGroupOutParams(
+                    message,group
+            ));
+        }
         return new GroupProfileOutParams(group);
 
     }

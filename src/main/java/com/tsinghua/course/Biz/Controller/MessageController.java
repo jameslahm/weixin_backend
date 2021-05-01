@@ -95,7 +95,7 @@ public class MessageController {
                 }
 
                 User user = ThreadUtil.getUser();
-                Friend friend = user.getFriends().stream().filter((friendElm)-> friendElm.getId()==target.getId()).findFirst().orElse(null);
+                Friend friend = user.getFriends().stream().filter((friendElm)-> friendElm.getId().equals(target.getId())).findFirst().orElse(null);
                 if(friend==null){
                     throw new CourseWarn(UserWarnEnum.BAD_REQUEST);
                 }
@@ -119,9 +119,14 @@ public class MessageController {
                 timeLineSavedProcessor.addMessageInToTimeLineSaved(group.getTimeLineSavedId(),message);
                 timeLineSyncProcessor.addMessageInToTimeLineSyncs(timeLineSyncIds,message);
 
-                List<String> ids = members.stream().map((member)-> member.getId()).collect(Collectors.toList());
+                List<String> ids = members.stream().map(User::getId).filter((id)->{
+                    return !id.equals(ThreadUtil.getUser().getId());
+                }).collect(Collectors.toList());
 
                 CreateMessageOutParams outParams = new CreateMessageOutParams(message);
+
+                // TODO FIXME
+                // Here is a hack
                 SocketUtil.sendMessageToUsers(ids,outParams);
                 break;
             }

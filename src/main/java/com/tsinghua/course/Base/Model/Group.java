@@ -20,7 +20,8 @@ public class Group {
     @DBRef
     List<User> members;
 
-    public Group(String name, List<User> members){
+    public Group(String name, String timeLineSavedId, List<User> members){
+        this.timeLineSavedId = timeLineSavedId;
         this.name = name;
         this.members = members;
     }

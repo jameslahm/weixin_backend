@@ -47,7 +47,7 @@ public class DiscoverProcessor {
 
     public Discover unLikeDiscover(User user,Discover discover){
         discover.getLikesBy().removeIf((id)->{
-            return id==user.getId();
+            return id.equals(user.getId());
         });
         saveDiscover(discover);
         return discover;

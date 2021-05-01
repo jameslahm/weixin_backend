@@ -5,6 +5,7 @@ import com.tsinghua.course.Base.Model.User;
 import com.tsinghua.course.Biz.Controller.Params.CommonOutParams;
 import com.tsinghua.course.Biz.Controller.Params.UserParams.Out.ProfileOutParams;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GroupProfileOutParams extends CommonOutParams {
@@ -22,6 +23,7 @@ public class GroupProfileOutParams extends CommonOutParams {
       this.avatar = group.getAvatar();
       this.id = group.getId();
       this.timeLineSaved = group.getTimeLineSavedId();
+      this.members = new ArrayList<>();
       for (User member:group.getMembers()){
           this.members.add(new ProfileOutParams(member));
       }
