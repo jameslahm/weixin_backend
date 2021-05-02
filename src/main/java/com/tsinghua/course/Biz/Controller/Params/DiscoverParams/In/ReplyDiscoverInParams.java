@@ -3,9 +3,10 @@ package com.tsinghua.course.Biz.Controller.Params.DiscoverParams.In;
 import com.tsinghua.course.Base.Annotation.BizType;
 import com.tsinghua.course.Base.Annotation.Required;
 import com.tsinghua.course.Base.Enum.BizTypeEnum;
+import com.tsinghua.course.Biz.Controller.Params.CommonInParams;
 
 @BizType(BizTypeEnum.DISCOVER_REPLY)
-public class ReplyDiscoverInParams {
+public class ReplyDiscoverInParams extends CommonInParams {
     @Required
     String discoverId;
 
@@ -13,7 +14,7 @@ public class ReplyDiscoverInParams {
     String content;
 
     @Required
-    int timestamp;
+    long timestamp;
 
     public String getDiscoverId() {
         return discoverId;
@@ -31,11 +32,11 @@ public class ReplyDiscoverInParams {
         this.content = content;
     }
 
-    public int getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(int timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 }

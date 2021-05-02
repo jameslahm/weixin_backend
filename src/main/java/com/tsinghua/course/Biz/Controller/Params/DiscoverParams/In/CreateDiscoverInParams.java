@@ -17,7 +17,17 @@ public class CreateDiscoverInParams extends CommonInParams {
     List<String> images;
 
     @Required
-    int timestamp;
+    long timestamp;
+
+    String video;
+
+    public String getVideo() {
+        return video;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
+    }
 
     public String getContent() {
         return content;
@@ -35,11 +45,11 @@ public class CreateDiscoverInParams extends CommonInParams {
         this.images = images;
     }
 
-    public int getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(int timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 }

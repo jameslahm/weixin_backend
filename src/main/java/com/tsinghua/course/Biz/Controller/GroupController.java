@@ -70,7 +70,7 @@ public class GroupController {
     @BizType(BizTypeEnum.GROUP_INVITE)
     public CommonOutParams groupInvite(InviteInToGroupInParams inParams) throws Exception {
         String groupId = inParams.getGroupId();
-        String friendId = inParams.getFriendId();
+        List<String> friendIds = inParams.getFriendIds();
 
         Group group = groupProcessor.getGroupById(groupId);
         if(group==null){
@@ -83,15 +83,17 @@ public class GroupController {
             throw new CourseWarn(UserWarnEnum.BAD_REQUEST);
         }
 
-        User target = userProcessor.getUserById(friendId);
-        groupProcessor.addMemberIntoGroup(target,group);
+        for (String friendId:friendIds){
+            User target = userProcessor.getUserById(friendId);
+            groupProcessor.addMemberIntoGroup(target,group);
 
-        String content = "You have been invited into "+ group.getName();
-        Message message = messageProcessor.createMessage(content, ContentTypeConstant.TEXT, MessageTypeConstant.INVITE,
-                System.currentTimeMillis(),user.getId(),target.getId());
-        SocketUtil.sendMessageToUser(target.getId(),new CreateInviteInToGroupOutParams(message,group));
+            String content = "You have been invited into "+ group.getName();
+            Message message = messageProcessor.createMessage(content, ContentTypeConstant.TEXT, MessageTypeConstant.INVITE,
+                    System.currentTimeMillis(),user.getId(),target.getId());
+            SocketUtil.sendMessageToUser(target.getId(),new CreateInviteInToGroupOutParams(message,group));
 
-        return new CommonOutParams(true);
+        }
+        return new GroupProfileOutParams(group);
     }
 
     @NeedLogin

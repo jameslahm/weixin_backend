@@ -21,9 +21,9 @@ public class DiscoverProcessor {
         return discover;
     }
 
-    public Discover createDiscover(String sender, String content,
-                                   List<String> images, int timestamp){
-        Discover discover = new Discover(sender,content,images,timestamp);
+    public Discover createDiscover(User sender, String content,
+                                   List<String> images,String video, long timestamp){
+        Discover discover = new Discover(sender,content,images,video,timestamp);
         saveDiscover(discover);
         return discover;
     }
@@ -35,26 +35,27 @@ public class DiscoverProcessor {
     public List<Discover> getDiscoversByFriends(User user){
         List<Friend> friends = user.getFriends();
         List<String> friendIds = friends.stream().map((friend -> friend.getId())).collect(Collectors.toList());
+        friendIds.add(user.getId());
         List<Discover> discovers = discoverRepository.findDiscoversBySenderInOrderByTimestampDesc(friendIds);
         return discovers;
     }
 
     public Discover likeDiscover(User user,Discover discover){
-        discover.getLikesBy().add(user.getId());
+        discover.getLikesBy().add(user);
         saveDiscover(discover);
         return discover;
     }
 
-    public Discover unLikeDiscover(User user,Discover discover){
-        discover.getLikesBy().removeIf((id)->{
-            return id.equals(user.getId());
+    public Discover unLikeDiscover(User target,Discover discover){
+        discover.getLikesBy().removeIf((user)->{
+            return user.getId().equals(target.getId());
         });
         saveDiscover(discover);
         return discover;
     }
 
-    public Discover replyDiscover(User user,Discover discover,String content,int timestamp){
-        discover.getReplies().add(new Reply(user.getId(),content,timestamp));
+    public Discover replyDiscover(User user,Discover discover,String content,long timestamp){
+        discover.getReplies().add(new Reply(user,content,timestamp));
         saveDiscover(discover);
         return discover;
     }

@@ -1,6 +1,7 @@
 package com.tsinghua.course.Base.Model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
@@ -12,23 +13,36 @@ public class Discover {
     @Id
     String id;
 
-    String sender;
+    @DBRef
+    User sender;
 
     String content;
 
     List<String> images;
 
-    int timestamp;
+    long timestamp;
 
-    List<String> likesBy;
+    String video;
+
+    @DBRef
+    List<User> likesBy;
+
+    public String getVideo() {
+        return video;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
+    }
 
     List<Reply> replies;
 
-    public Discover(String sender,String content,
-                    List<String> images,int timestamp){
+    public Discover(User sender,String content,
+                    List<String> images,String video,long timestamp){
         this.sender = sender;
         this.content = content;
         this.images = images;
+        this.video = video;
         this.timestamp = timestamp;
         this.likesBy = new ArrayList<>();
         this.replies = new ArrayList<>();
@@ -43,11 +57,11 @@ public class Discover {
         this.id = id;
     }
 
-    public String getSender() {
+    public User getSender() {
         return sender;
     }
 
-    public void setSender(String sender) {
+    public void setSender(User sender) {
         this.sender = sender;
     }
 
@@ -67,19 +81,19 @@ public class Discover {
         this.images = images;
     }
 
-    public int getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(int timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 
-    public List<String> getLikesBy() {
+    public List<User> getLikesBy() {
         return likesBy;
     }
 
-    public void setLikesBy(List<String> likesBy) {
+    public void setLikesBy(List<User> likesBy) {
         this.likesBy = likesBy;
     }
 

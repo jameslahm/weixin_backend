@@ -7,11 +7,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class GetDiscoverByFriendsOutParams extends CommonOutParams {
-    List<DiscoverProfileOutParams> discoverProfileOutParams;
+    List<DiscoverProfileOutParams> discovers;
 
     public GetDiscoverByFriendsOutParams(List<Discover> discovers){
-        discoverProfileOutParams = discovers.stream().map(discover -> {
+        this.discovers = discovers.stream().map(discover -> {
             return new DiscoverProfileOutParams(discover);
         }).collect(Collectors.toList());
+    }
+
+    public List<DiscoverProfileOutParams> getDiscovers() {
+        return discovers;
+    }
+
+    public void setDiscovers(List<DiscoverProfileOutParams> discovers) {
+        this.discovers = discovers;
     }
 }

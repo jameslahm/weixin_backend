@@ -27,11 +27,12 @@ public class DiscoverController {
     @BizType(BizTypeEnum.DISCOVER_CREATE)
     public CommonOutParams discoverCreate(CreateDiscoverInParams inParams) throws Exception {
         String content = inParams.getContent();
-        int timestamp = inParams.getTimestamp();
+        long timestamp = inParams.getTimestamp();
         List<String> images = inParams.getImages();
+        String video = inParams.getVideo();
 
         String senderId = inParams.getId();
-        Discover discover = discoverProcessor.createDiscover(senderId, content, images, timestamp);
+        Discover discover = discoverProcessor.createDiscover(ThreadUtil.getUser(), content, images,video, timestamp);
 
         return new DiscoverProfileOutParams(discover);
     }
@@ -80,7 +81,7 @@ public class DiscoverController {
     @BizType(BizTypeEnum.DISCOVER_REPLY)
     public CommonOutParams discoverReply(ReplyDiscoverInParams inParams) throws Exception{
         String content = inParams.getContent();
-        int timestamp = inParams.getTimestamp();
+        long timestamp = inParams.getTimestamp();
         String discoverId = inParams.getDiscoverId();
 
         Discover discover = discoverProcessor.getDiscoverById(discoverId);
