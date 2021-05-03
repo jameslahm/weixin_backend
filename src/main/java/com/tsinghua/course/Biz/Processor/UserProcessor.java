@@ -67,6 +67,20 @@ public class UserProcessor {
         return timeLineSaved.getId();
     }
 
+    public void deleteFriend(User user,User friend){
+        List<Friend> friends  =user.getFriends();
+        friends.removeIf((friend1 -> {
+            return friend1.getId().equals(friend.getId());
+        }));
+        this.saveUser(user);
+
+        friend.getFriends().removeIf((friend1 -> {
+            return friend1.getId().equals(user.getId());
+        }));
+        this.saveUser(friend);
+        return;
+    }
+
 
     public User createUser(String weixinId,String username,String password){
         TimeLineSync timeLineSync = new TimeLineSync();
@@ -76,9 +90,10 @@ public class UserProcessor {
         return user;
     }
 
-    public User updateUser(User user, String weixinId, String username, String password){
+    public User updateUser(User user, String weixinId, String username,String avatar, String password){
         user.setWeixinId(weixinId);
         user.setUsername(username);
+        user.setAvatar(avatar);
         if(password!=null){
             user.setPassword(password);
         }

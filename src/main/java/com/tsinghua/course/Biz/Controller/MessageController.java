@@ -134,7 +134,7 @@ public class MessageController {
 
             }
         }
-        return new CommonOutParams(true);
+        return new CreateMessageOutParams(message);
     }
 }
 

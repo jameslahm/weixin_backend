@@ -15,6 +15,7 @@ public enum BizTypeEnum {
     USER_GET_PROFILES_BY_IDS(UserController.class,"/users","User Get file By Ids",HttpMethod.GET),
     USER_PUT_PROFILE(UserController.class,"/user","User Put Profile",HttpMethod.PUT),
     USER_CONFIRM_ADD_FRIEND(UserController.class,"/user/addfriend","User confirm add friend",HttpMethod.POST),
+    USER_DELETE_FRIEND(UserController.class,"/user/deletefriend","User delete friend",HttpMethod.POST),
 
     // Group
     GROUP_CREATE(GroupController.class,"/group","Group Create",HttpMethod.POST),
@@ -22,8 +23,10 @@ public enum BizTypeEnum {
     GROUP_EXIT(GroupController.class,"/group/exit","Group Exit",HttpMethod.POST),
 
     // Message
-    TIMELINESYNC_GET(TimeLineSyncController.class,"/timelinesync","TimeLine Sync Get",HttpMethod.GET),
-    TIMELINESAVED_GET(TimeLineSavedController.class,"/timelinesaved","TimeLine Saved t",HttpMethod.GET),
+//    TIMELINESYNC_GET(TimeLineSyncController.class,"/timelinesync","TimeLine Sync Get",HttpMethod.GET),
+    TIMELINESAVED_GET_SINGLE(TimeLineSavedController.class,"/timelinesaved/single","TimeLine Saved Get Single",HttpMethod.GET),
+    TIMELINESAVED_GET_GROUP(TimeLineSavedController.class,"/timelinesaved/group","TimeLine Saved Get Group",HttpMethod.GET),
+
     MESSAGE_CREATE(MessageController.class,"/message","Message Create",HttpMethod.POST),
     MESSAGE_PING(MessageController.class,"/message/ping","Message Ping",HttpMethod.POST),
 

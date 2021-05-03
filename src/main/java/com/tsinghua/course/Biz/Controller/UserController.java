@@ -93,6 +93,7 @@ public class UserController {
         String weixinId = inParams.getWeixinId();
         String username = inParams.getUsername();
         String password = inParams.getPassword();
+        String avatar = inParams.getAvatar();
 
         User user = userProcessor.getUserByWeixinId(weixinId);
         if(user==null){
@@ -100,7 +101,7 @@ public class UserController {
         }
 
         user= ThreadUtil.getUser();
-        userProcessor.updateUser(user,weixinId,username,password);
+        userProcessor.updateUser(user,weixinId,username,avatar,password);
 
 
         return new ProfileOutParams(user);
@@ -139,7 +140,7 @@ public class UserController {
         if(friend==null) {
             throw new CourseWarn(UserWarnEnum.NOT_FOUND);
         }
-      User user = ThreadUtil.getUser();
+        User user = ThreadUtil.getUser();
 
         String timeLineSavedId =  userProcessor.addFriend(user,friend);
 
@@ -162,6 +163,20 @@ public class UserController {
 //        List friendList = Arrays.asList(friends);
 //        friendList.add(new Friend(friendId,user.getTimeLineSyncId(),user.getUsername()));
 //        friendList.toArray(friends);
-        return new CommonOutParams(true);
+        return new ProfileOutParams(user);
+    }
+
+    @NeedLogin
+    @BizType(BizTypeEnum.USER_DELETE_FRIEND)
+    public CommonOutParams userDeleteFriend(DeleteFriendInParams inParams) throws CourseWarn {
+        String friendId = inParams.getFriendId();
+        User friend = userProcessor.getUserById(friendId);
+        if(friend==null){
+            throw new CourseWarn(UserWarnEnum.BAD_REQUEST);
+        }
+        User user = ThreadUtil.getUser();
+        userProcessor.deleteFriend(user,friend);
+
+        return new ProfileOutParams(user);
     }
 }

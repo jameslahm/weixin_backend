@@ -1,8 +1,6 @@
 package com.tsinghua.course.Biz.Controller;
 
-import com.tsinghua.course.Base.Annotation.BizType;
 import com.tsinghua.course.Base.Annotation.NeedLogin;
-import com.tsinghua.course.Base.Enum.BizTypeEnum;
 import com.tsinghua.course.Base.Model.Message;
 import com.tsinghua.course.Base.Model.TimeLineSync;
 import com.tsinghua.course.Biz.Controller.Params.CommonOutParams;
@@ -21,7 +19,7 @@ public class TimeLineSyncController {
     TimeLineSyncProcessor timeLineSyncProcessor;
     
     @NeedLogin
-    @BizType(BizTypeEnum.TIMELINESYNC_GET)
+//    @BizType(BizTypeEnum.TIMELINESYNC_GET)
     public CommonOutParams meLineSyncGet(TimeLineSyncGetInParams inParams){
         String timeLineId = inParams.getTimeLineSyncId();
         int timestamp = inParams.getTimestamp();

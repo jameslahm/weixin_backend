@@ -13,7 +13,18 @@ public class UpdateProfileInParams extends CommonInParams {
     @Required
     private String username;
 
+    @Required
+    private String avatar;
+
     private String password;
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 
     public void setUsername(String username) {
         this.username = username;
