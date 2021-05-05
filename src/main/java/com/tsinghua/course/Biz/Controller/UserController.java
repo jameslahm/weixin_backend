@@ -96,7 +96,7 @@ public class UserController {
         String avatar = inParams.getAvatar();
 
         User user = userProcessor.getUserByWeixinId(weixinId);
-        if(user==null){
+        if(user!=null){
             throw new CourseWarn(UserWarnEnum.BAD_REQUEST);
         }
 
