@@ -5,7 +5,7 @@ import com.tsinghua.course.Base.Annotation.Required;
 import com.tsinghua.course.Base.Enum.BizTypeEnum;
 import com.tsinghua.course.Biz.Controller.Params.CommonInParams;
 
-@BizType(BizTypeEnum.TIMELINESAVED_GET_SINGLE)
+@BizType(BizTypeEnum.TIMELINESAVED_GET_GROUP)
 public class TimeLineSavedGetGroupInParams extends CommonInParams {
 
     @Required
