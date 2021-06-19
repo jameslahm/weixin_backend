@@ -39,7 +39,7 @@ public class NettyServer {
             sb.option(ChannelOption.SO_BACKLOG, 1024);
             sb.group(group, bossGroup) // 绑定线程池
                     .channel(NioServerSocketChannel.class) // 指定使用的channel
-                    .localAddress(5200)// 绑定监听端口
+                    .localAddress(7999)// 绑定监听端口
                     .childHandler(new ChannelInitializer<SocketChannel>() { // 绑定客户端连接时候触发操作
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
@@ -71,7 +71,7 @@ public class NettyServer {
             ServerBootstrap b = new ServerBootstrap();
             b.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
-                    .localAddress(7000)
+                    .localAddress(8000)
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) throws Exception {

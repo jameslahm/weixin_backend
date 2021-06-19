@@ -95,16 +95,17 @@ public class UserController {
         String password = inParams.getPassword();
         String avatar = inParams.getAvatar();
 
+        User self= ThreadUtil.getUser();
+
         User user = userProcessor.getUserByWeixinId(weixinId);
-        if(user!=null){
+        if(user!=null && !self.getId().equals(user.getId()) ){
             throw new CourseWarn(UserWarnEnum.BAD_REQUEST);
         }
 
-        user= ThreadUtil.getUser();
-        userProcessor.updateUser(user,weixinId,username,avatar,password);
+        userProcessor.updateUser(self,weixinId,username,avatar,password);
 
 
-        return new ProfileOutParams(user);
+        return new ProfileOutParams(self);
     }
 
     @BizType(BizTypeEnum.USER_GET_PROFILE)
